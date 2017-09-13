@@ -1,0 +1,63 @@
+Set union A | B
+Set intersection A & B
+Set subtraction A & ~B
+Set negation ALL_BITS ^ A or ~A
+Set bit A |= 1 << bit
+Clear bit A &= ~(1 << bit)
+Test bit (A & 1 << bit) != 0
+Extract last bit A&-A or A&~(A-1) or x^(x&(x-1))
+Remove last bit A&(A-1)
+Get all 1-bits ~0
+
+##Examples
+
+#Count the number of ones in the binary representation of the given number
+
+int count_one(int n) {
+    while(n) {
+        n = n&(n-1);
+        count++;
+    }
+    return count;
+}
+
+###^ tricks
+
+Use ^ to remove even exactly same numbers and save the odd, or save the distinct bits and remove the same.
+
+#Sum of Two Integers
+
+Use ^ and & to add two integers
+
+int getSum(int a, int b) {
+    return b==0? a:getSum(a^b, (a&b)<<1); //be careful about the terminating condition;
+}
+
+#Missing Number
+
+Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array. For example, Given nums = [0, 1, 3] return 2. (Of course, you can do this by math.)
+
+int missingNumber(vector<int>& nums) {
+    int ret = 0;
+    for(int i = 0; i < nums.size(); ++i) {
+        ret ^= i;
+        ret ^= nums[i];
+    }
+    return ret^=nums.size();
+}
+
+### | tricks
+
+Keep as many 1-bits as possible
+
+#Find the largest power of 2 (most significant bit in binary form), which is less than or equal to the given number N.
+
+long largest_power(long N) {
+    //changing all right side bits to 1.
+    N = N | (N>>1);
+    N = N | (N>>2);
+    N = N | (N>>4);
+    N = N | (N>>8);
+    N = N | (N>>16);
+    return (N+1)>>1;
+}
